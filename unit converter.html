@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Unit Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .converter {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="converter">
+    <h2>Unit Converter</h2>
+    
+    <label for="conversionType">Select Conversion Type:</label>
+    <select id="conversionType">
+      <option value="length">Length</option>
+      <option value="temperature">Temperature</option>
+      <!-- Add more options for other measurements here -->
+    </select>
+
+    <div id="lengthConverter">
+      <label for="lengthValue">Enter Length:</label>
+      <input type="number" id="lengthValue">
+      
+      <label for="fromUnit">From:</label>
+      <select id="fromUnit">
+        <option value="meters">Meters</option>
+        <option value="feet">Feet</option>
+      </select>
+      
+      <label for="toUnit">To:</label>
+      <select id="toUnit">
+        <option value="meters">Meters</option>
+        <option value="feet">Feet</option>
+      </select>
+      
+      <button onclick="convertLength()">Convert</button>
+      
+      <p id="lengthResult"></p>
+    </div>
+
+    <div id="temperatureConverter" style="display: none;">
+      <label for="tempValue">Enter Temperature:</label>
+      <input type="number" id="tempValue">
+      
+      <label for="fromTempUnit">From:</label>
+      <select id="fromTempUnit">
+        <option value="celsius">Celsius</option>
+        <option value="fahrenheit">Fahrenheit</option>
+      </select>
+      
+      <label for="toTempUnit">To:</label>
+      <select id="toTempUnit">
+        <option value="celsius">Celsius</option>
+        <option value="fahrenheit">Fahrenheit</option>
+      </select>
+      
+      <button onclick="convertTemperature()">Convert</button>
+      
+      <p id="temperatureResult"></p>
+    </div>
+  </div>
+
+  <script>
+    function convertLength() {
+      const lengthValue = parseFloat(document.getElementById("lengthValue").value);
+      const fromUnit = document.getElementById("fromUnit").value;
+      const toUnit = document.getElementById("toUnit").value;
+      let result = 0;
+
+      if (fromUnit === "meters" && toUnit === "feet") {
+        result = lengthValue * 3.28084;
+      } else if (fromUnit === "feet" && toUnit === "meters") {
+        result = lengthValue / 3.28084;
+      }
+
+      document.getElementById("lengthResult").textContent = `Result: ${result} ${toUnit}`;
+    }
+
+    function convertTemperature() {
+      const tempValue = parseFloat(document.getElementById("tempValue").value);
+      const fromTempUnit = document.getElementById("fromTempUnit").value;
+      const toTempUnit = document.getElementById("toTempUnit").value;
+      let result = 0;
+
+      if (fromTempUnit === "celsius" && toTempUnit === "fahrenheit") {
+        result = (tempValue * 9/5) + 32;
+      } else if (fromTempUnit === "fahrenheit" && toTempUnit === "celsius") {
+        result = (tempValue - 32) * 5/9;
+      }
+
+      document.getElementById("temperatureResult").textContent = `Result: ${result} ${toTempUnit}`;
+    }
+
+    document.getElementById("conversionType").addEventListener("change", function () {
+      const selectedConversion = this.value;
+      if (selectedConversion === "length") {
+        document.getElementById("lengthConverter").style.display = "block";
+        document.getElementById("temperatureConverter").style.display = "none";
+      } else if (selectedConversion === "temperature") {
+        document.getElementById("lengthConverter").style.display = "none";
+        document.getElementById("temperatureConverter").style.display = "block";
+      }
+    });
+  </script>
+</body>
+</html>
